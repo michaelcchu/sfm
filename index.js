@@ -256,8 +256,11 @@ fileInput.addEventListener("change", () => {
 function setup(arrayBuffer) {
   midi = new Midi(arrayBuffer);
   notes = [];
-  for (let track of midi.tracks) {
-    for (let note of track.notes) {
+  for (let i = 0; i < midi.tracks.length; i++) {
+    track = midi.tracks[i];
+    for (let j = 0; j < track.notes.length; j++) {
+      note = track.notes[j];
+      note.track = i;
       notes.push(note);
     }
   }
