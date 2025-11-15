@@ -1,0 +1,23 @@
+.top {grid-area: top; min-width:0px;}
+.middle {grid-area: middle; min-width:0px;}
+.bottom {grid-area: bottom;}
+.bottom2 {grid-area: bottom2; width: 100%; height: 100%;}
+.footer {
+    grid-area: footer; 
+    background-color: #EBEBEB;
+    border-radius: 8px;
+    border: 1px solid;
+}
+
+.wrapper {
+    display: grid;
+    grid-template-areas:
+        "top"
+        "middle"
+        "bottom"
+        "bottom2"
+        "footer";
+    grid-template-rows: auto auto auto 30px 1fr;
+    grid-template-columns: auto;
+    grid-gap: 8px;
+}
