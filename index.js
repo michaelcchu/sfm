@@ -257,9 +257,9 @@ function setup(arrayBuffer) {
   midi = new Midi(arrayBuffer);
   notes = [];
   for (let i = 0; i < midi.tracks.length; i++) {
-    track = midi.tracks[i];
+    const track = midi.tracks[i];
     for (let j = 0; j < track.notes.length; j++) {
-      note = track.notes[j];
+      const note = track.notes[j];
       note.track = i;
       notes.push(note);
     }
@@ -279,6 +279,27 @@ function setup(arrayBuffer) {
   noteWidth = minDistance / 2;
   
   resetVars();
+
+  analyzeChords();
+}
+
+function analyzeChords() {
+  for (let k = 0; k < chords.length; k++) {
+    const chord = chords[k];
+    for (let i = 0; i < chord.length; i++) {
+      for (let j = i + 1; j < chord.length; j++) {
+        const noteA = chord[i];
+        const noteB = chord[j];
+
+        // if the notes are in different tracks (voices), compare them 
+        // -- find what interval they form
+        if (noteA.track !== noteB.track) {
+          console.log(noteA,noteB)
+        }
+
+      }
+    }
+  }
 }
 
 reader.addEventListener("load", (e) => {setup(e.target.result);});
