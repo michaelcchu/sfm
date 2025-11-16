@@ -297,43 +297,48 @@ function analyzeChords() {
       // call the current note, "noteA"
       const noteA = chord[i];
 
-      // check all notes against noteA 
-      for (let j = i + 1; j < chord.length; j++) {
-        const noteB = chord[j];
+      // if noteA is the first note in the track,
+      // or noteA is not at the same time as the previous note in the track, 
+      // then check all remaining notes against noteA 
+      if ((previousNote[noteA.track] === null) || 
+          (previousNote[noteA.track].ticks !== noteA.ticks)) {
+        for (let j = i + 1; j < chord.length; j++) {
+          const noteB = chord[j];
 
-        // x and y are note objects
-        function calcInterval(x, y) {
-          return Math.abs(x.midi - y.midi) % 12;
-        }
-
-        // if the notes are in different tracks (voices), compare them 
-        // -- find what interval they form
-        if (noteA.track !== noteB.track) {
-          const interval = calcInterval(noteA, noteB);
-
-          function checkPrevious() {
-              // find previous interval between these two voices
-              const beforeNoteA = previousNote[noteA.track];
-              const beforeNoteB = previousNote[noteB.track];
-
-              const previousInterval = calcInterval(beforeNoteA, beforeNoteB);
-
-              if (previousInterval === interval) {
-                console.log("Parallel");
-              }
-
-              //beforeNoteA
-
-              // may need to add a check for similar motion 
-              // to be considered parallel
+          // x and y are note objects
+          function calcInterval(x, y) {
+            return Math.abs(x.midi - y.midi) % 12;
           }
 
-          // if the interval is an octave or a unison (0), or a fifth (7)
-          if (interval === 0 || interval == 7) {
+          // if the notes are in different tracks (voices), compare them 
+          // -- find what interval they form
+          if (noteA.track !== noteB.track) {
+            const interval = calcInterval(noteA, noteB);
 
-            console.log(noteA, noteB, interval);
+            function checkPrevious() {
+                // find previous interval between these two voices
+                const beforeNoteA = previousNote[noteA.track];
+                const beforeNoteB = previousNote[noteB.track];
 
-            checkPrevious();
+                const previousInterval = calcInterval(beforeNoteA, beforeNoteB);
+
+                if (previousInterval === interval) {
+                  console.log("Parallel");
+                }
+
+                //beforeNoteA
+
+                // may need to add a check for similar motion 
+                // to be considered parallel
+            }
+
+            // if the interval is an octave or a unison (0), or a fifth (7)
+            if (interval === 0 || interval == 7) {
+
+              console.log(noteA, noteB, interval);
+
+              checkPrevious();
+            }
           }
         }
       }
