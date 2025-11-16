@@ -320,10 +320,11 @@ function analyzeChords() {
                 const beforeNoteA = previousNote[noteA.track];
                 const beforeNoteB = previousNote[noteB.track];
 
-                const previousInterval = calcInterval(beforeNoteA, beforeNoteB);
-
-                if (previousInterval === interval) {
-                  console.log("Parallel");
+                if ((beforeNoteA !== null) && (beforeNoteB !== null)){
+                  const prevInterval = calcInterval(beforeNoteA, beforeNoteB);
+                  if (prevInterval === interval) {
+                    console.log("Parallel");
+                  }
                 }
 
                 //beforeNoteA
