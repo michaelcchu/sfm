@@ -294,11 +294,6 @@ function analyzeChords() {
         // if the notes are in different tracks (voices), compare them 
         // -- find what interval they form
         if (noteA.track !== noteB.track) {
-          // computes n mod m
-          function mod(n, m) {
-            return ((n % m) + m) % m;
-          }
-
           const interval = Math.abs(noteA.midi - noteB.midi) % 12;
           console.log(noteA,noteB,interval);
         }
