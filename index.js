@@ -292,10 +292,13 @@ function analyzeChords() {
   for (let k = 0; k < chords.length; k++) {
     const chord = chords[k];
 
-    // check all pairs of notes within the chord
+    // loop through each note in the chord
     for (let i = 0; i < chord.length; i++) {
+      // call the current note, "noteA"
+      const noteA = chord[i];
+
+      // check all notes against noteA 
       for (let j = i + 1; j < chord.length; j++) {
-        const noteA = chord[i];
         const noteB = chord[j];
 
         // x and y are note objects
@@ -333,11 +336,10 @@ function analyzeChords() {
             checkPrevious();
           }
         }
-
-        // store the notes in previousNote
-        previousNote[noteA.track] = noteA;
-        previousNote[noteB.track] = noteB;
       }
+
+      // store the note in previousNote
+      previousNote[noteA.track] = noteA;
     }
   }
 }
