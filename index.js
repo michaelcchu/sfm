@@ -298,22 +298,39 @@ function analyzeChords() {
         const noteA = chord[i];
         const noteB = chord[j];
 
+        // x and y are note objects
+        function calcInterval(x, y) {
+          return Math.abs(x.midi - y.midi) % 12;
+        }
+
         // if the notes are in different tracks (voices), compare them 
         // -- find what interval they form
         if (noteA.track !== noteB.track) {
-          const interval = Math.abs(noteA.midi - noteB.midi) % 12;
+          const interval = calcInterval(noteA, noteB);
 
-          // if the interval is an octave or a unison (0)
-          if (interval === 0) {
-            console.log(noteA,noteB,interval);
+          function checkPrevious() {
+              // find previous interval between these two voices
+              const beforeNoteA = previousNote[noteA.track];
+              const beforeNoteB = previousNote[noteB.track];
 
-            // find previous interval between these two voices
-            
+              const previousInterval = calcInterval(beforeNoteA, beforeNoteB);
+
+              if (previousInterval === interval) {
+                console.log("Parallel");
+              }
+
+              //beforeNoteA
+
+              // may need to add a check for similar motion 
+              // to be considered parallel
           }
-          
-          // if the interval is a fifth (7)
-          else if (interval === 7) {
-            console.log(noteA,noteB,interval);
+
+          // if the interval is an octave or a unison (0), or a fifth (7)
+          if (interval === 0 || interval == 7) {
+
+            console.log(noteA, noteB, interval);
+
+            checkPrevious();
           }
         }
 
