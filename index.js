@@ -295,9 +295,18 @@ function analyzeChords() {
         // -- find what interval they form
         if (noteA.track !== noteB.track) {
           const interval = Math.abs(noteA.midi - noteB.midi) % 12;
-          console.log(noteA,noteB,interval);
-        }
 
+          // if the interval is an octave or a unison (0)
+          if (interval === 0) {
+            console.log(noteA,noteB,interval);
+
+            // find previous interval between these two voices
+
+            // if the interval is a fifth (7)
+          else if (interval === 7) {
+            console.log(noteA,noteB,interval);
+          }
+        }
       }
     }
   }
