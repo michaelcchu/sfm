@@ -288,8 +288,11 @@ function setup(arrayBuffer) {
 function analyzeChords() {
   const previousNote = new Array(midi.tracks.length).fill(null);
 
+  // loop through every chord in order, from beginning to end
   for (let k = 0; k < chords.length; k++) {
     const chord = chords[k];
+
+    // check all pairs of notes within the chord
     for (let i = 0; i < chord.length; i++) {
       for (let j = i + 1; j < chord.length; j++) {
         const noteA = chord[i];
@@ -305,6 +308,7 @@ function analyzeChords() {
             console.log(noteA,noteB,interval);
 
             // find previous interval between these two voices
+            
           }
           
           // if the interval is a fifth (7)
@@ -312,6 +316,10 @@ function analyzeChords() {
             console.log(noteA,noteB,interval);
           }
         }
+
+        // store the notes in previousNote
+        previousNote[noteA.track] = noteA;
+        previousNote[noteB.track] = noteB;
       }
     }
   }
