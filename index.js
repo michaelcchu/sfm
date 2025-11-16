@@ -7,6 +7,7 @@ const normalGain = 0.15;
 const reader = new FileReader();
 
 let activePress; let chords = []; let index; let midi; let notes; 
+let numberOfTracks;
 let on = false; let press; let ticks = []; let tuning;
 
 let notesPlaying = [];
@@ -256,6 +257,7 @@ fileInput.addEventListener("change", () => {
 function setup(arrayBuffer) {
   midi = new Midi(arrayBuffer);
   notes = [];
+  numberOfTracks = midi.tracks.length;
   for (let i = 0; i < midi.tracks.length; i++) {
     const track = midi.tracks[i];
     for (let j = 0; j < track.notes.length; j++) {
@@ -284,6 +286,8 @@ function setup(arrayBuffer) {
 }
 
 function analyzeChords() {
+  const previousNote = new Array(midi.tracks.length).fill(null);
+
   for (let k = 0; k < chords.length; k++) {
     const chord = chords[k];
     for (let i = 0; i < chord.length; i++) {
@@ -301,8 +305,9 @@ function analyzeChords() {
             console.log(noteA,noteB,interval);
 
             // find previous interval between these two voices
-
-            // if the interval is a fifth (7)
+          }
+          
+          // if the interval is a fifth (7)
           else if (interval === 7) {
             console.log(noteA,noteB,interval);
           }
