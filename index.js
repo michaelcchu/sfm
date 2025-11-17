@@ -316,11 +316,18 @@ function analyzeChords() {
             const interval = calcInterval(noteA, noteB);
 
             function checkPrevious() {
-                // find previous interval between these two voices
                 const beforeNoteA = previousNote[noteA.track];
                 const beforeNoteB = previousNote[noteB.track];
 
-                if ((beforeNoteA !== null) && (beforeNoteB !== null)){
+                // make sure beforeNoteA and beforeNoteB exist 
+                // and coicide (sound at least partly at the same time)
+                if ((beforeNoteA !== null) && (beforeNoteB !== null)
+                  && (Math.max(beforeNoteA.ticks, beforeNoteB.ticks) 
+                    < Math.min(beforeNoteA.ticks + beforeNoteA.durationTicks,
+                      beforeNoteB.ticks + beforeNoteB.durationTicks)
+                    ) 
+                  ){
+                  // find previous interval between these two voices
                   const prevInterval = calcInterval(beforeNoteA, beforeNoteB);
                   if (prevInterval === interval) {
                     // check for similar motion 
