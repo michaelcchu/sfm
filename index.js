@@ -323,14 +323,14 @@ function analyzeChords() {
                 if ((beforeNoteA !== null) && (beforeNoteB !== null)){
                   const prevInterval = calcInterval(beforeNoteA, beforeNoteB);
                   if (prevInterval === interval) {
-                    console.log("Parallel");
+                    // check for similar motion 
+                    // to be considered parallel
+                    if ((noteA.midi - beforeNoteA.midi) * 
+                      (noteB.midi - beforeNoteB.midi) > 0) {
+                        console.log("Parallel");
+                    }
                   }
                 }
-
-                //beforeNoteA
-
-                // may need to add a check for similar motion 
-                // to be considered parallel
             }
 
             // if the interval is an octave or a unison (0), or a fifth (7)
